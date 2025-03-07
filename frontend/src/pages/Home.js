@@ -5,18 +5,26 @@ const Home = () => {
 
     useEffect(() => {
         const fetchWorkouts = async () => {
-            const response = await fetch('http://localhost:4001/api/workouts')
-            const json = await response.body()
+            // if a request isn't recognized, it will be proxied to the URL specified in package.json
+            // ONLY for development!
+            const response = await fetch('/api/workouts') 
+            const json = await response.json()
 
             if (response.ok) {
                 setWorkouts(json)
             }
         }
+
+        fetchWorkouts()
     }, [])
 
     return (
         <div className="home">
-            <h2>Home!</h2>
+            <div className="workouts">
+                {workouts && workouts.map((workout) => (
+                    <p key={workout._id}>{workout.title}</p>
+                ))}
+            </div>
         </div>
     )
 }
