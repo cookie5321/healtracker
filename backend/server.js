@@ -3,9 +3,11 @@ require('dotenv').config()
 const express = require('express')
 const workoutRouter = require('./routes/workouts')
 const mongoose = require('mongoose')
+const cors = require('cors')
 
 const app = express()
 
+app.use(cors({ origin: "http://localhost:3000" }))
 app.use(express.json()) // attach the request body JSON to req.body
 // logging middleware
 app.use((req, res, next) => {

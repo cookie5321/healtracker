@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import WorkoutDetails from '../components/WorkoutDetails'
 
 const Home = () => {
     const [workouts, setWorkouts] = useState(null)
@@ -7,7 +8,7 @@ const Home = () => {
         const fetchWorkouts = async () => {
             // if a request isn't recognized, it will be proxied to the URL specified in package.json
             // ONLY for development!
-            const response = await fetch('/api/workouts') 
+            const response = await fetch('http://localhost:4001/api/workouts') 
             const json = await response.json()
 
             if (response.ok) {
@@ -21,8 +22,8 @@ const Home = () => {
     return (
         <div className="home">
             <div className="workouts">
-                {workouts && workouts.map((workout) => (
-                    <p key={workout._id}>{workout.title}</p>
+                {workouts && workouts.map((workout) => ( // https://stackoverflow.com/a/12878648
+                    <WorkoutDetails key={workout._id} workout={workout} />
                 ))}
             </div>
         </div>
