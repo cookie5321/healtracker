@@ -4,6 +4,7 @@ const WorkoutDetails = ({ workout }) => {
             <h4>{workout.title}</h4>
             <p><strong>횟수: </strong>{workout.reps}</p>
             <p><strong>중량: </strong>{workout.load}</p>
+            <p>{workout.createdAt}</p>
         </div>
     )
 }
