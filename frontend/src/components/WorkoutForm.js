@@ -10,7 +10,7 @@ const WorkoutForm = () => {
         e.preventDefault() // prevens the default behavior of refreshing a page
 
         const workout = { title, reps, load }
-        const response = await fetch('http://localhost:4000/api/workouts', {
+        const response = await fetch('http://localhost:4001/api/workouts', {
             method: 'POST',
             body: JSON.stringify(workout),
             headers: {
