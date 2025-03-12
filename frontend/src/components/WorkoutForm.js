@@ -1,10 +1,12 @@
 import { useState } from "react"
+import { useWorkoutContext } from "../hooks/useWorkoutContext"
 
 const WorkoutForm = () => {
     const [title, setTitle] = useState('')
     const [reps, setReps] = useState('')
     const [load, setLoad] = useState('')
     const [error, setError] = useState(null)
+    const { dispatch } = useWorkoutContext()
 
     const addWorkout = async (e) => {
         e.preventDefault() // prevens the default behavior of refreshing a page
@@ -27,6 +29,8 @@ const WorkoutForm = () => {
             setError(null)
 
             console.log('added the following workout: ', json)
+
+            dispatch({ type: "CREATE_WORKOUT", payload: json })
         } else {
             setError(json.error)
             console.log(json.error)
