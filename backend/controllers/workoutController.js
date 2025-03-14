@@ -8,7 +8,11 @@ const createWorkout = async (req, res) => {
         const workout = await Workout.create({ title, reps, load }) // asynchronous
         res.status(200).json(workout) // created a document successfully, 200 response with the given object
     } catch (err) {
-        res.status(400).json({ error: err.message })
+        // console.log("INPUT ERROR!")
+        // console.log(err)
+        res.status(400).json({ 
+            errors: Object.entries(err.errors).map(([key, value]) => ({ field: value.path, type: value.kind })) 
+        })
     }
 }
 

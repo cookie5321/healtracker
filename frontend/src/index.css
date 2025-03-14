@@ -95,3 +95,6 @@ div.error {
   border-radius: 50%;
   color: #333;
 }
+input.error {
+  border: 1px solid var(--error);
+}

@@ -6,6 +6,7 @@ const WorkoutForm = () => {
     const [reps, setReps] = useState('')
     const [load, setLoad] = useState('')
     const [error, setError] = useState(null)
+    const [errorFields, setErrorFields] = useState([])
     const { dispatch } = useWorkoutContext()
 
     const addWorkout = async (e) => {
@@ -32,8 +33,10 @@ const WorkoutForm = () => {
 
             dispatch({ type: "CREATE_WORKOUT", payload: json })
         } else {
-            setError(json.error)
-            console.log(json.error)
+            // console.log(json.errors)
+            setErrorFields(json.errors.map(({ field, type }) => field))
+            // TODO proper key
+            setError(json.errors.map(({ field, type }) => type === 'required' ? <p key='123'>항목을 입력해 주세요.</p> : <p key='321'>올바르지 않은 입력값입니다.</p>))
         }
     }
 
@@ -45,18 +48,21 @@ const WorkoutForm = () => {
             <input type="text" 
                 onChange={(e) => setTitle(e.target.value)}
                 value={title}
+                className={errorFields.includes('title') ? 'error' : ''}
             />
 
             <label>반복 횟수</label>
             <input type="text" 
                 onChange={(e) => setReps(e.target.value)}
                 value={reps}
+                className={errorFields.includes('reps') ? 'error' : ''}
             />
  
             <label>중량</label>
             <input type="text" 
                 onChange={(e) => setLoad(e.target.value)}
                 value={load}
+                className={errorFields.includes('load') ? 'error' : ''}
             />
 
             <button>추가</button>
