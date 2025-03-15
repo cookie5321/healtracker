@@ -6,6 +6,7 @@ const {
     removeWorkout,
     updateWorkout
 } = require('../controllers/workoutController')
+const requireAuth = require('../middleware/requireAuth')
 
 const router = express.Router()
 
@@ -13,6 +14,8 @@ const router = express.Router()
     // console.log("any call under /api/workouts")
     // next()
 // })
+
+router.use(requireAuth)
 
 router.get('/', getWorkouts)
 

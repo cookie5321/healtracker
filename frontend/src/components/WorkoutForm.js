@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useWorkoutContext } from "../hooks/useWorkoutContext"
+import { useAuthContext } from "../hooks/useAuthContext"
 
 const WorkoutForm = () => {
     const [title, setTitle] = useState('')
@@ -8,16 +9,23 @@ const WorkoutForm = () => {
     const [error, setError] = useState(null)
     const [errorFields, setErrorFields] = useState([])
     const { dispatch } = useWorkoutContext()
+    const { user } = useAuthContext()
 
     const addWorkout = async (e) => {
         e.preventDefault() // prevens the default behavior of refreshing a page
+
+        if (!user) {
+            setError('로그인되어 있지 않습니다.')
+            return
+        }
 
         const workout = { title, reps, load }
         const response = await fetch('http://localhost:4001/api/workouts', {
             method: 'POST',
             body: JSON.stringify(workout),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token}`
             }
         })
 

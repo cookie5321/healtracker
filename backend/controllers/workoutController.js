@@ -3,9 +3,10 @@ const Workout = require('../models/workoutModel')
 
 const createWorkout = async (req, res) => {
     const { title, reps, load } = req.body
+    const user_id = req.user._id
 
     try { 
-        const workout = await Workout.create({ title, reps, load }) // asynchronous
+        const workout = await Workout.create({ title, reps, load, user_id }) // asynchronous
         res.status(200).json(workout) // created a document successfully, 200 response with the given object
     } catch (err) {
         // console.log("INPUT ERROR!")
@@ -17,7 +18,9 @@ const createWorkout = async (req, res) => {
 }
 
 const getWorkouts = async (req, res) => {
-    const workouts = await Workout.find({}).sort({ createdAt: -1}) // criteria is empty; getting all documents. -1 to sort in descending order
+    const user_id = req.user._id
+
+    const workouts = await Workout.find({ user_id }).sort({ createdAt: -1}) // criteria is empty; getting all documents. -1 to sort in descending order
     res.status(200).json(workouts)
 }
 
